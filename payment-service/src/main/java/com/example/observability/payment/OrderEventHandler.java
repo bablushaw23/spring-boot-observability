@@ -10,8 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Component
+@RestController
+@RequestMapping("/api/v1/payment")
 @Slf4j
 public class OrderEventHandler {
 
@@ -24,19 +29,16 @@ public class OrderEventHandler {
     @Autowired
     OrderUpdateService orderUpdateService;
 
-    @KafkaListener(topics = "order-events")
-    public void listen(String message) {
-        try {
-            OrderPayment orderPayment = objectMapper.readValue(message, OrderPayment.class);
-            log.info("Received order event: {}", orderPayment);
+    //    @KafkaListener(topics = "order-events")
+    @PostMapping("/order-payment")
+    public void listen(@RequestBody OrderPayment orderPayment) {
 
-            // Process payment
-            paymentService.processPayment(orderPayment);
+        log.info("Received order event: {}", orderPayment);
 
-            // Update order status to PROCESSING
-            orderUpdateService.updateOrderStatus(new Order(orderPayment.id(), OrderStatus.PAYMENT_VERIFIED));
-        } catch (Exception e) {
-            log.error("Failed to process order event", e);
-        }
+        // Process payment
+        paymentService.processPayment(orderPayment);
+
+        // Update order status to PROCESSING
+        orderUpdateService.updateOrderStatus(new Order(orderPayment.id(), OrderStatus.PAYMENT_VERIFIED));
     }
 }

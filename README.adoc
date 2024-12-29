@@ -52,3 +52,8 @@ After that, navigate to the `http://localhost:8081/swagger-ui/index.html#/order-
 Then, navigate to `http://localhost:16686` to access the Jaeger UI and see the full request path across the services.
 
 
+=== Troubleshoot
+If kafka-compose does not work then run below manually:
+----
+docker run -d -p 9092:9092 --name broker apache/kafka:latest
+----
