@@ -22,6 +22,7 @@ public class OrderService {
 
     public void updateOrderStatus(Order order) {
         log.info("Updating order status : order id {}", order.id());
+        throw new RuntimeException("Cannot process");
     }
 
     public void shipOrder() {
