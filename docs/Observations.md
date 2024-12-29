@@ -1,3 +1,16 @@
+Sample API
+`http://localhost:8081/api/v1/order/place-order`
+```json
+{
+    "id": 1,
+    "paymentToken": "some-token",
+    "orderStatus": "PLACED",
+    "items": [{
+        "productId": 123,
+        "quantity": 2
+    }]
+}
+```
 1. Intentionally thrown exception to see ui in jaeger
 ![img.png](img.png)
 
