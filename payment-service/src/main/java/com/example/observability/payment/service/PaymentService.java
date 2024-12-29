@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class PaymentService {
 
-    @Observed(name = "payment:processPayment")
+//    @Observed(name = "payment:processPayment")
     public void processPayment(OrderPayment orderPayment) {
         log.info("Starting payment processing for Order ID: {}", orderPayment.id());
 
@@ -25,7 +25,8 @@ public class PaymentService {
             log.info("Payment captured for Order ID: {}", orderPayment.id());
             log.info("Completing payment processing for Order ID: {}", orderPayment.id());
             Thread.sleep(500);
-            log.info("Payment processing completed for Order ID: {}", orderPayment.id());
+            throw new RuntimeException("null id");
+//            log.info("Payment processing completed for Order ID: {}", orderPayment.id());
         } catch (InterruptedException e) {
             log.error("Thread was interrupted while processing payment for Order ID: {}", orderPayment.id(), e);
         } catch (Exception e) {
